@@ -5,8 +5,6 @@ metadata:
   labels:
     app: grafana
 spec:
-  strategy:
-    type: RollingUpdate
   selector:
     matchLabels:
       app: grafana
