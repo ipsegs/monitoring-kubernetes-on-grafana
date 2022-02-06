@@ -1,7 +1,8 @@
 # Integrating prometheus metrics into grafana and using it to monitor my Kubernetes cluster.
 
-# n/b emptyDir was used as the volume.
-emptyDir is persistent when a container dies in a pod but non-persistent when a pod dies.
+ n/b emptyDir is used as the kubernetes volume.
+
+emptyDir is persistent when a container dies in a pod and it's being restarted but when a pod dies, it is non-persistent.
 
 This project is simple and straightforward.
 we created five object files:
