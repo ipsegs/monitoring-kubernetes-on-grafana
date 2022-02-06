@@ -1,0 +1,51 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: grafana-deployment
+  labels:
+    app: grafana
+spec:
+  strategy:
+    type: RollingUpdate
+  selector:
+    matchLabels:
+      app: grafana
+  replicas: 1
+  template:
+    metadata:
+      name: grafana
+      labels:
+        app: grafana
+    spec:
+      containers:
+      - name: grafana
+        image: grafana/grafana
+        ports:
+        - name: grafana
+          containerPort: 3000
+        volumeMounts:
+        - name: data
+          mountPath: /var/lib/grafana
+      - name: prometheus
+        image: prom/prometheus
+        args:
+          - '--storage.tsdb.retention=6h'
+          - '--storage.tsdb.path=/prometheus'
+          - '--config.file=/etc/prometheus/prometheus.yml'
+        ports:
+        - containerPort: 9090
+          name: prometheus
+        volumeMounts:
+        - name: config-mount
+          mountPath: /etc/prometheus
+        - name: volume-mount
+          mountPath: /prometheus
+      volumes:
+      - name: data
+        emptyDir: {}
+      - name: config-mount
+        configMap:
+           defaultMode: 420
+           name: prometheus-configuration
+      - name: volume-mount
+        emptyDir: {}
