@@ -1,20 +1,28 @@
-# Integrating prometheus metrics into grafana and using it to monitor my Kubernetes cluster.
+# Starting the namespace and configuring the prometheus clusters.
+I added all global clusterRole and clusterRoleBinding configuration into a file since they are not environment or namespace-specific.
+then added the "monitoring namespace" which is where our grafana and prometheus deployment and service will reside.
 
- n/b emptyDir is used as the kubernetes volume.
+#To start the process:
 
-emptyDir is persistent when a container dies in a pod and it's being restarted but when a pod dies, it is non-persistent.
+   kubectl apply -k .
+n/b do not ignore the dot(.)
 
-This project is simple and straightforward.
-five declaration file is being created:
-1) grafana-prometheus.yaml   - a deployment file for both grafana and prometheus
-2) prometheus-service.yaml   - a service file for prometheus to expose the pod to a node and uses NodePort
-3) grafana-service.yaml      - a service file for grafana to expose the pod to a node and uses NodePort
-4) prometheus-config.yaml    - a configMap file for prometheus to inject configuration into prometheus environment
-5) kustomization.yaml        - a templating file containing the resources to be started.
+#To view the namespace:
 
-instead of starting the declaration file one after the other, kustomization file is used to start them and in the right order
+   kubectl get ns
+you should find monitoring as part of the namespace.
 
-to start the pod using the kustomization file, use this command:
+#To view the clusterRole and clusterRoleBinding:
 
-kubectl apply -k .
+   kubectl get clusterRole
+ use
+   kubectl get clusterrolebinding to find clusterrolebinding
+you should find all cluster roles and cluster role bindings including prometheus and kube-state-metrics.
+
+
+#To view the metrics kube-state metrics would capture and more:
+run
+    kubectl proxy
+then
+    check localhost:8001
 
