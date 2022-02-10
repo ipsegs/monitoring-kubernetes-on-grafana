@@ -4,10 +4,15 @@ metadata:
   name: grafana-svc
   labels:
     app: grafana
+    namespace: monitoring
+  annotations:
+      prometheus.io/scrape: 'true'
+      prometheus.io/port:   '3000'
 spec:
   selector:
     app: grafana
   ports:
   - port: 3000
+    targetPort: 3000
     nodePort: 30878
   type: NodePort

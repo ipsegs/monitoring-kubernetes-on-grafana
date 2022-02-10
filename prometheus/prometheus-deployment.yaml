@@ -1,29 +1,22 @@
 apiVersion: apps/v1
 kind: Deployment
 metadata:
-  name: grafana-deployment
+  name: prometheus-deployment
+  namespace: monitoring
   labels:
-    app: grafana
+    app: prometheus
 spec:
   selector:
     matchLabels:
-      app: grafana
+      app: prometheus
   replicas: 1
   template:
     metadata:
-      name: grafana
+      name: prometheus
       labels:
-        app: grafana
+        app: prometheus
     spec:
       containers:
-      - name: grafana
-        image: grafana/grafana
-        ports:
-        - name: grafana
-          containerPort: 3000
-        volumeMounts:
-        - name: data
-          mountPath: /var/lib/grafana
       - name: prometheus
         image: prom/prometheus
         args:
@@ -39,11 +32,10 @@ spec:
         - name: volume-mount
           mountPath: /prometheus
       volumes:
-      - name: data
-        emptyDir: {}
       - name: config-mount
         configMap:
            defaultMode: 420
            name: prometheus-configuration
       - name: volume-mount
         emptyDir: {}
+
