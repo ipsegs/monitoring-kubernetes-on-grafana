@@ -13,3 +13,5 @@ That's another project i may likely work on later.
 
 #Start the process in the order of arrangement.
 there's a kustomization file in each folder to start each folder content in the right order.
+
+To start each folder, simple instructions are provided in the readme file of each folders.

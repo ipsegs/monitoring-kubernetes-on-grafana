@@ -3,9 +3,6 @@ kind: Service
 metadata:
   name: prometheus-service
   namespace: monitoring
-  annotations:
-      prometheus.io/scrape: 'true'
-      prometheus.io/port:   '9090'
   labels:
     app: prometheus
 spec:
